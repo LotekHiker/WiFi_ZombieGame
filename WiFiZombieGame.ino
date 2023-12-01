@@ -11,7 +11,7 @@ const unsigned long eventInterval = gameLength * 60000;
 
 // WS2812 - LED-strip
 #define DATA_PIN 12
-#define NUM_LEDS 9
+#define NUM_LEDS 12
 CRGB leds[NUM_LEDS];
 
 int rssis[3];
@@ -91,6 +91,16 @@ void flashLEDs(CRGB color) {
   }
 }
 
+void circleLEDs(CRGB color) {
+   // Move a single led 
+     for(int i = 0; i < NUM_LEDS; i++) {
+      leds[i] = color;
+      FastLED.show();
+      delay(50);
+      leds[i] = colour[3];
+   }
+}
+
 void setup() {
   
   // turn builtin led off
@@ -133,8 +143,8 @@ void setup() {
     color = i_am == ZOMBIE ? colour[0] : colour[1];
   while (scanWifi(other_ssid) <= FAR_LIMIT)  flashLEDs(color); // wait for other players to show up
     color = i_am == ZOMBIE ? colour[0] : colour[1];
-  while (scanWifi(other_ssid) > START_LIMIT)    flashLEDs(color); // wait for other players go hiding
-
+  while (scanWifi(other_ssid) > START_LIMIT)     flashLEDs(color); // wait for other players go hiding
+//  while (scanWifi(other_ssid) > START_LIMIT)    circleLEDs(color); // wait for other players go hiding
   resetRSSIs();
 }
 
